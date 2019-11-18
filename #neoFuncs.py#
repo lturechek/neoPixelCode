@@ -1,0 +1,68 @@
+
+letterDict={}
+bar=[1,1,1,1,1,1,1,1]
+blk=[0,0,0,0,0,0,0,0]
+topPx=[1,0,0,0,0,0,0,0]
+#print(topPx)
+letterDict[' ']=[blk for i in range(3)]
+#print(letterDict[' '])
+letterDict['A']=[]+bar+[1,0,0,1,0,0,0,0]+[1,0,0,1,0,0,0,0]+bar+blk
+letterDict['T']=[]+topPx+topPx+bar+topPx+topPx+blk
+#print (letterDict['T'])
+import board
+import neopixel
+import neoAlphabet as neo
+import time
+
+def initGrid():
+    pxct=0
+    rowct=0
+    neoGrid=[]
+    dorp=[]
+    rvs=False
+    for i in range(256):
+        pxct+=1
+        dorp.append(i)
+        if pxct==8:
+            pxct=0
+            if rvs:
+                dorp.reverse()
+                rvs=False
+            else:
+                rvs=True
+            neoGrid.append(dorp)
+            dorp=[]
+            rowct+=1
+    return neoGrid
+
+def initBlankGrid():
+    return [[0,0,0,0,0,0,0,0] for i in range(8)]
+    
+def genMessageGrid(message):
+    thisMessage=[]
+    for character in message:
+        for column in neo.letterDict[character]:
+
+            thisMessage.append(column)
+
+def genOutputGrid(thisGrid):
+    for i in range(32):
+        for j in range(8):
+            if thisGrid[i][j]==0:
+                p[neoGrid[i][j]]=0
+            else:
+                p[neoGrid[i][j]]=(20,20,20)
+    
+p=neopixel.NeoPixel(board.D18,256,auto_write=False)
+neoGrid=initGrid()
+print (neoGrid)
+r,g,b=20,20,20
+#print (initBlankGrid())
+thisMessage=genMessageGrid('TA AT')
+print (thisMessage)
+genOutputGrid(thisMessage)
+
+p.show()
+time.sleep(5)
+p.fill(0)
+p.show()
