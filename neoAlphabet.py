@@ -1,3 +1,6 @@
+# revise for 11-pixel column
+
+
 letterDict={} # hash table of letters and bitmaps
 bar=[1,1,1,1,1,1,1,0] # solid vertical bar (skipping bottom row across the board)
 blk=[0,0,0,0,0,0,0,0] # blank column
